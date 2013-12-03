@@ -12,6 +12,30 @@ end
 
 module Sites
 
+  class Viewer < Sinatra::Base
+
+    def wiki_new
+      Gollum::Wiki.new(ENV['SITES_BASE_PATH'] + env['SCRIPT_NAME'] + '.git', {})
+    end
+
+    get '/' do
+      wiki = wiki_new
+      @page = wiki.page('Home')
+      erb :page
+    end
+
+    get '/cnames' do
+      raise Sinatra::NotFound
+    end
+
+    get '/*' do
+      wiki = wiki_new
+      @page = wiki.page(params[:splat][0])
+      erb :page
+    end
+
+  end
+
   class Manager < Sinatra::Base
 
     use Rack::Auth::Basic, "Protected Area" do |username, password|
@@ -34,9 +58,18 @@ module Sites
     def initialize(app)
       @app = app
       @sites_manager = Sites::Manager.new
+      @sites_viewer = Sites::Viewer.new
     end
 
     def call(env)
+
+      host = env['SERVER_NAME']
+      match = host.match(/(\w+)\.#{ENV['SITES_SERVER_NAME']}/)
+      if match
+        env['SCRIPT_NAME'] = "/#{match[1]}"
+        return @sites_viewer.call(env)
+      end
+
       path = env['PATH_INFO']
       root, site, path = path.split(/\//, 3)
 
