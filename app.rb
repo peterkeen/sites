@@ -21,7 +21,15 @@ module Sites
     get '/' do
       wiki = wiki_new
       @page = wiki.page('Home')
-      erb :page
+
+      layout = wiki.file('layout.erb')
+      layout_data = if layout
+        layout.raw_data
+      else
+        "<%= yield %>"
+      end
+
+      render :erb, @page.formatted_data, layout: layout_data
     end
 
     get '/cnames' do
@@ -31,7 +39,15 @@ module Sites
     get '/*' do
       wiki = wiki_new
       @page = wiki.page(params[:splat][0])
-      erb :page
+
+      layout = wiki.file('layout.erb')
+      layout_data = if layout
+        layout.raw_data
+      else
+        "<%= yield %>"
+      end
+
+      render :erb, @page.formatted_data, layout: layout_data
     end
 
   end
