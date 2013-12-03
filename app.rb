@@ -32,6 +32,18 @@ module Sites
       render :erb, @page.formatted_data, layout: layout_data
     end
 
+    get '/assets/*' do
+      wiki = wiki_new
+      file = wiki.file(File.join("assets", params[:splat][0]))
+      if file
+        mimetype = MIME::Types.of params[:splat][0]
+        content_type mimetype[0]
+        return file.raw_data
+      else
+        raise Sinatra::NotFound
+      end
+    end
+
     get '/cnames' do
       raise Sinatra::NotFound
     end
