@@ -1,3 +1,11 @@
+<ul>
+<% @all_sites.each do |site| %>
+  <li><a href="<%= site %>"><%= site %></a></li>
+<% end %>
+</ul>
+
+<% unless @new_site_name.nil? || @new_site_name.empty? %>
 <form action="/<%= @new_site_name %>" method="POST">
   <button name="submit">Create New Site <%= @new_site_name %></button>
 </form>
+<% end %>
