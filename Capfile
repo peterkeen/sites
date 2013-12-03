@@ -12,8 +12,9 @@ role :web, "subspace.bugsplat.info"
 set :buildpack_url, "git@git.bugsplat.info:peter/bugsplat-buildpack-ruby-simple"
 
 set :user, "peter"
-set :base_port, 7600
+set :base_port, 7500
 set :concurrency, "web=1"
+set :default_server, true
 
 read_env 'prod'
 
