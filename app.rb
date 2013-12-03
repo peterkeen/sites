@@ -73,6 +73,10 @@ module Sites
       path = env['PATH_INFO']
       root, site, path = path.split(/\//, 3)
 
+      if site.nil? || site.empty?
+        return [404, {}, "Not found"]
+      end
+
       unless File.directory?(File.join(ENV['SITES_BASE_PATH'], site + ".git"))
         env['new_site_name'] = site
         return @sites_manager.call(env)
