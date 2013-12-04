@@ -19,7 +19,7 @@ module Sites
             if i != 0
               return [301, {'Location' => "http://#{names[0]}#{path}"}, []]
             else
-              match = [nil, name]
+              match = [nil, site]
               break
             end
           end
