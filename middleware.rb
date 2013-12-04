@@ -32,10 +32,6 @@ module Sites
         return @sites_viewer.call(env)
       end
 
-      if host != ENV['SITES_SERVER_NAME']
-        return [404, {}, ['not found']]
-      end
-
       root, site, path = path.split(/\//, 3)
 
       unless File.directory?(File.join(ENV['SITES_BASE_PATH'], site + ".git"))
