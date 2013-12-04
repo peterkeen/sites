@@ -27,10 +27,10 @@ module Sites
         end
       end
 
-      match ||= host.match(/(\w+)\.#{ENV['SITES_SERVER_NAME']}/)
-      if match
-        env['SCRIPT_NAME'] = "/#{match[1]}"
-        return @sites_viewer.call(env)
+      puts host, ENV['SITES_SERVER_NAME']
+
+      if host != ENV['SITES_SERVER_NAME']
+        return [404, {}, ["Not found"]]
       end
 
       root, site, path = path.split(/\//, 3)
