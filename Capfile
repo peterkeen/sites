@@ -5,7 +5,7 @@ set :application, "sites"
 set :repository, "git@git.bugsplat.info:peter/sites.git"
 set :scm, :git
 set :additional_domains, %w(
-  *.sites.subspace.bugsplat.info
+  sites.bugsplat.info
 )
 
 role :web, "subspace.bugsplat.info"

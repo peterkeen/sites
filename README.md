@@ -1,16 +1,15 @@
 # Sites
 
+Generates simple Git-backed [Gollum](https://github.com/gollum/gollum) wikis on demand and presents a read-only view if the site declares any CNAMEs in a wiki page named `cnames`. The first name is the canonical name, all others redirect to it.
+
 This is running on `sites.bugsplat.info`.
 
 ## Features
 
-* Creates new Gollum wikis on the fly at `sites.web01.bugsplat.info/:sitename`
-* Read only view at `:sitename.sites.web01.bugsplat.info`
+* Creates new Gollum wikis on the fly
 * Site-specific layouts
+* Arbitrary CNAMEs for sites
 
-## Todo
+## License
 
-* Read arbitrary CNAMEs out of `cnames.md`
-* Add a repo remote and post-commit push script
-* Add ability to set default_server in foreman export nginx
-
+MIT
