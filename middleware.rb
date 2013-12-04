@@ -19,7 +19,7 @@ module Sites
             if i != 0
               return [301, {'Location' => "http://#{names[0]}#{path}"}, []]
             else
-              match = [nil, site]
+              match = [nil, name]
               break
             end
           end
@@ -27,10 +27,13 @@ module Sites
         end
       end
 
-      puts host, ENV['SITES_SERVER_NAME']
+      if match
+        env['SCRIPT_NAME'] = "/#{match[1]}"
+        return @sites_viewer.call(env)
+      end
 
       if host != ENV['SITES_SERVER_NAME']
-        return [404, {}, ["Not found"]]
+        return [404, {}, 'not found']
       end
 
       root, site, path = path.split(/\//, 3)
