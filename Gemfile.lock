@@ -29,6 +29,8 @@ GEM
     nokogiri (1.6.0)
       mini_portile (~> 0.5.0)
     posix-spawn (0.3.6)
+    puma (2.3.0)
+      rack (>= 1.1, < 2.0)
     pygments.rb (0.5.4)
       posix-spawn (~> 0.3.6)
       yajl-ruby (~> 1.1.0)
@@ -51,4 +53,5 @@ PLATFORMS
 
 DEPENDENCIES
   gollum
+  puma
   rack
