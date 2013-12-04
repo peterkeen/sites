@@ -33,7 +33,7 @@ module Sites
       end
 
       if host != ENV['SITES_SERVER_NAME']
-        return [404, {}, 'not found']
+        return [404, {}, ['not found']]
       end
 
       root, site, path = path.split(/\//, 3)
