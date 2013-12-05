@@ -38,7 +38,7 @@ module Sites
         end
   
         render :erb, @page.formatted_data, layout: layout_data
-      elsif (file = wiki.file(page_name)
+      elsif (file = wiki.file(page_name))
         mimetype = MIME::Types.of page_name
         content_type mimetype[0]
         return file.raw_data
