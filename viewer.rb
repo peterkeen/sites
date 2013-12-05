@@ -27,7 +27,9 @@ module Sites
     get '/*' do
       wiki = wiki_new
 
-      if (@page = wiki.page(params[:splat][0]))
+      page_name = params[:splat][0].gsub(/\.html$/, '')
+
+      if (@page = wiki.page(page_name))
         layout = wiki.file('layout.erb')
         layout_data = if layout
           layout.raw_data
@@ -36,8 +38,8 @@ module Sites
         end
   
         render :erb, @page.formatted_data, layout: layout_data
-      elsif (file = wiki.file(params[:splat][0]))
-        mimetype = MIME::Types.of params[:splat][0]
+      elsif (file = wiki.file(page_name)
+        mimetype = MIME::Types.of page_name
         content_type mimetype[0]
         return file.raw_data
       else
