@@ -23,6 +23,7 @@ GEM
       pygments.rb (~> 0.5.2)
       sanitize (~> 2.0.6)
       stringex (~> 2.1.0)
+    lru_redux (0.8.1)
     mime-types (1.25.1)
     mini_portile (0.5.2)
     mustache (0.99.5)
@@ -53,5 +54,6 @@ PLATFORMS
 
 DEPENDENCIES
   gollum
+  lru_redux
   puma
   rack
