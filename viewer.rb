@@ -41,10 +41,15 @@ module Sites
       @cache.getset(key) do
         if (@page = wiki.page(page_name))
           render :erb, @page.formatted_data, layout: get_layout(wiki)
-        elsif (file = wiki.file(page_name))
+        elsif (file = wiki.file(page_name) || wiki.file(page_name + '.erb'))
+          raw_data = file.raw_data
+          if file.name.end_with? '.erb'
+            raw_data = render :erb, raw_data, layout: false
+          end
           mimetype = MIME::Types.of page_name
+
           content_type mimetype[0]
-          return file.raw_data
+          return raw_data
         else
           raise Sinatra::NotFound
         end
