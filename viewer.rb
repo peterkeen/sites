@@ -4,8 +4,14 @@ module Sites
 
   class Viewer < Sinatra::Base
 
+    NON_VIEWABLE_PATHS = [
+      'cnames',
+      'layout'
+    ]
+
+
     def wiki_new
-      Gollum::Wiki.new(ENV['SITES_BASE_PATH'] + env['SCRIPT_NAME'] + '.git', {})
+      Gollum::Wiki.new(ENV['SITES_BASE_PATH'] + "/" + env['wiki.name'] + '.git', {})
     end
 
     def initialize(app = nil)
@@ -18,46 +24,24 @@ module Sites
       "#{key}-#{rev}"
     end
 
-    get '/' do
-      wiki = wiki_new
-      key = cache_key(wiki, 'Home')
-      response.headers['X-Cache-Key'] = key
-
-      @cache.getset(key) do
-        @page = wiki.page('Home')
-  
-        layout = wiki.file('layout.erb')
-        layout_data = if layout
-          layout.raw_data
-        else
-          "<%= yield %>"
-        end
-
-        render :erb, @page.formatted_data, layout: layout_data
+    def get_layout(wiki)
+      layout = wiki.file('layout.erb') || wiki.page('layout')
+      if layout
+        return layout.raw_data
+      else
+        return "<html><body><%= yield %></body></html>"
       end
     end
 
-    get '/cnames' do
-      raise Sinatra::NotFound
-    end
-
-    get '/*' do
+    def render_page(page_name, params)
       wiki = wiki_new
-      page_name = params[:splat][0].gsub(/\.html$/, '')
 
       key = cache_key(wiki, page_name)
       response.headers['X-Cache-Key'] = key
 
       @cache.getset(key) do
         if (@page = wiki.page(page_name))
-          layout = wiki.file('layout.erb')
-          layout_data = if layout
-            layout.raw_data
-          else
-            "<%= yield %>"
-          end
-    
-          render :erb, @page.formatted_data, layout: layout_data
+          render :erb, @page.formatted_data, layout: get_layout(wiki)
         elsif (file = wiki.file(page_name))
           mimetype = MIME::Types.of page_name
           content_type mimetype[0]
@@ -66,6 +50,34 @@ module Sites
           raise Sinatra::NotFound
         end
       end
+    end
+
+    before do
+      if env['viewer.auth']
+        auth = Rack::Auth::Basic::Request.new(env)
+        return if auth.provided? &&
+          auth.basic? &&
+          auth.credentials &&
+          auth.credentials == [ENV['USERNAME'], ENV['PASSWORD']]
+
+        headers['WWW-Authenticate'] = 'Basic realm="Restricted Area"'
+        halt 401, "Not authorized\n"
+      end
+    end
+
+    NON_VIEWABLE_PATHS.each do |path|
+      get "/#{path}" do
+        raise Sinatra::NotFound
+      end
+    end
+
+    get '/' do
+      render_page('Home', params)
+    end
+
+    get '/*' do
+      page_name = params[:splat][0].gsub(/\.html$/, '')
+      render_page(page_name, params)
     end
 
   end

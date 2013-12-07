@@ -32,7 +32,7 @@ module Sites
       end
 
       if match
-        env['SCRIPT_NAME'] = "/#{match[1]}"
+        env['wiki.name'] = match[1]
         return @sites_viewer.call(env)
       end
 
@@ -41,6 +41,15 @@ module Sites
       unless File.directory?(File.join(ENV['SITES_BASE_PATH'], site + ".git"))
         env['new_site_name'] = site
         return @sites_manager.call(env)
+      end
+
+      if path && path.start_with?('view')
+        path = path.sub(/^view/, '')
+        env['wiki.name'] = site
+        env['viewer.auth'] = true
+        env['SCRIPT_NAME'] = "/#{site}/view"
+        env['PATH_INFO'] = path
+        return @sites_viewer.call(env)
       end
 
       env['SCRIPT_NAME'] = "/#{site}"
