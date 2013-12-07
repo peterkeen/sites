@@ -32,7 +32,7 @@ module Sites
       end
 
       if match
-        env['SCRIPT_NAME'] = '/'
+        env['SCRIPT_NAME'] = ''
         env['wiki.name'] = match[1]
         return @sites_viewer.call(env)
       end
