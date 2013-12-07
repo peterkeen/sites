@@ -9,7 +9,6 @@ module Sites
       'layout'
     ]
 
-
     def wiki_new
       Gollum::Wiki.new(ENV['SITES_BASE_PATH'] + "/" + env['wiki.name'] + '.git', {})
     end
@@ -49,6 +48,12 @@ module Sites
         else
           raise Sinatra::NotFound
         end
+      end
+    end
+
+    helpers do
+      def static_path(path)
+        env['SCRIPT_PATH'] + path
       end
     end
 
