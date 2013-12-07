@@ -20,7 +20,7 @@ module Sites
 
     def cache_key(wiki, key)
       rev = wiki.repo.head.commit.id
-      "#{key}-#{rev}"
+      "#{key}-#{rev}-#{env['SCRIPT_NAME']}"
     end
 
     def get_layout(wiki)
