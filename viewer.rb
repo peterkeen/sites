@@ -53,7 +53,7 @@ module Sites
 
     helpers do
       def static_path(path)
-        env['SCRIPT_PATH'] + path
+        env['SCRIPT_NAME'] + path
       end
     end
 
