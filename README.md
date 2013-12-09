@@ -57,9 +57,10 @@ To view your raw microsite in all it's glory, just append '/view' to the end of 
 	
 ## In the wild
 
-This is running on http://sites.bugsplat.info.
-
 Check out the demo site here: http://demosite.petekeen.net
+
+This blog post has some screen shots if you'd like to see the management interface: 
+https://www.petekeen.net/simple-git-backed-microsites
 
 ## Features
 
