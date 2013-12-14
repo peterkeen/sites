@@ -60,6 +60,10 @@ module Sites
       def static_path(path)
         env['SCRIPT_NAME'] + path
       end
+
+      def page_title
+        @page.metadata[:title] || @page.title
+      end
     end
 
     before do
