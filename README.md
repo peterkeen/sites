@@ -55,13 +55,6 @@ To view your raw microsite in all it's glory, just append '/view' to the end of 
 
     eg. localhost:9292/yournewsite/view
 	
-## In the wild
-
-Check out the demo site here: http://demosite.petekeen.net
-
-This blog post has some screen shots if you'd like to see the management interface: 
-https://www.petekeen.net/simple-git-backed-microsites
-
 ## Features
 
 * Creates new Gollum wikis on the fly
