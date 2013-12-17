@@ -22,18 +22,12 @@ https://www.petekeen.net/simple-git-backed-microsites
 ## Installation
 
 1. $ git clone https://github.com/peterkeen/sites.git
-2. $ bundle install
-3. Create the following environment variables.
-
-```
-SITES_BASE_PATH=localhost
-USERNAME=chooseusername
-PASSWORD=choosepassword
-```
+2. $ mv .env.example .env
+3. $ bundle install
 
 ## Getting started
 
-    $ rackup # then visit localhost:9292 and login
+    $ rackup # then visit localhost:9292 (authentication per .env file)
 
 ## Making a new site
 

@@ -1,3 +1,12 @@
+<h1>Welcome to Sites</h1>
+
+<% if @all_sites.empty? %>
+	<h2>Make your first site</h2>
+	<p>In the address bar above, type in the path the name of the project you want to create and press enter.</p>
+	<code>localhost:9292/yourfirstsite</code>
+	<p>A nice little create button should appear below, press it and go!</p>
+<% end %>
+
 <ul>
 <% @all_sites.each do |site| %>
   <li><a href="<%= site %>"><%= site %></a></li>
