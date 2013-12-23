@@ -1,3 +1,6 @@
+require 'dotenv'
+Dotenv.load
+
 require './app.rb'
 
 use Sites::Middleware

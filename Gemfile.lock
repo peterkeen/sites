@@ -3,6 +3,7 @@ GEM
   specs:
     charlock_holmes (0.6.9.4)
     diff-lcs (1.2.5)
+    dotenv (0.9.0)
     github-markdown (0.5.5)
     github-markup (0.7.5)
     gitlab-grit (2.6.0)
@@ -53,6 +54,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  dotenv
   gollum
   lru_redux
   puma
