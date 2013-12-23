@@ -48,6 +48,75 @@ eg. /sites/localhost/yournewsite.git
 To view your raw microsite in all it's glory, just append '/view' to the end of the site path in the address bar.
 
     eg. localhost:9292/yournewsite/view
+
+## Layouts and Assets
+
+To create a site layout just create a wiki page named `layout` and set it to the `erb` type. This file can contain arbitrary ERB. Inside the layout, `yield` where you want the wiki page content to go. For example:
+
+```rhtml
+<html>
+  <body>
+    <%= yield %>
+  </body>
+</html>
+```
+
+In your layout you have direct access to the [Gollum::Page](https://github.com/gollum/gollum-lib/blob/master/lib/gollum-lib/page.rb) object using `@page`. This lets you do things like get the page title, allowing for overrides from page metadata:
+
+```rhtml
+<title><%= @page.url_path_title %></title>
+```
+
+You can also add and edit javascript and css files directly from the wiki interface. For example, create a new wiki page named `/assets/stylesheets/main` and give it the `css` type, then drop this in:
+
+```css
+h1 { color: blue; }
+```
+
+To reference your new stylesheet, use the `static_path` helper:
+
+```rhtml
+<html>
+  <head>
+    <link rel="stylesheet" href="<%= static_path '/assets/stylesheets/main.css' %>" />
+  <body>
+    <%= yield %>
+  </body>
+</html>
+```
+
+The `static_path` helper is specifically for allowing you to view sites using the `/view` path as well as making it possible to view them from arbitrary domain names.
+
+
+## CNAMEs
+
+You can map sites to domain names by creating a wiki page named `cnames` in the root of your site. Each line in this wiki page is a domain name that the site will respond do. Every line after the first will automatically redirect to the first. For example:
+
+```
+www.petekeen.net
+petekeen.net
+www.peterkeen.com
+```
+
+In this example, `www.peterkeen.com` and `petekeen.net` will issue a 301 redirect to `www.petekeen.net`.
+
+If you deploy this with nginx, make your sites application the default, like so:
+
+```nginx
+upstream sites {
+    server localhost:7500 fail_timeout=0
+}
+
+server {
+    # note the "default_server" part
+    listen 80 default_server;
+
+    # this is just an example so i'm omitting other interesting stuff here
+    location {
+      proxy_pass http://sites;
+    }
+}
+```
 	
 ## Features
 
