@@ -9,3 +9,10 @@ class Precious::App
     username == ENV['USERNAME'] && password == ENV['PASSWORD']
   end
 end
+
+# Dummy Formats
+[:css, :js, :erb].each do |format|
+  Gollum::Markup.register(format, format.to_s) do |content|
+    content
+  end
+end
