@@ -6,5 +6,5 @@ require './app.rb'
 use Sites::Middleware
 
 Precious::App.set(:gollum_path, '/')
-Precious::App.set(:wiki_options, {})
+Precious::App.set(:wiki_options, {live_preview: false, allow_uploads: true})
 run Precious::App
