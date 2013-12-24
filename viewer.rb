@@ -18,7 +18,7 @@ module Sites
       'image/jpeg' => lambda { |data| ImageOptim.new.optimize_image_data(data) rescue data }
     }
 
-    set :compress_assets, true
+    set :compress_assets, ENV['RACK_ENV'] == 'production'
 
     def wiki_new
       Gollum::Wiki.new(ENV['SITES_BASE_PATH'] + "/" + env['wiki.name'] + '.git', {})

@@ -87,6 +87,9 @@ To reference your new stylesheet, use the `static_path` helper:
 
 The `static_path` helper is specifically for allowing you to view sites using the `/view` path as well as making it possible to view them from arbitrary domain names.
 
+On production assets will be transparently compressed and cached. CSS and JS are compressed with YUI Compressor and PNG and JPEG with ImageOptim (if prerequisites are available). In addition, gzip compression will be transparently applied if the browser accepts it.
+
+For image compression to work you'll need several prerequisites installed. See the [ImageOptim](https://github.com/toy/image_optim) documentation for instructions.
 
 ## CNAMEs
 
