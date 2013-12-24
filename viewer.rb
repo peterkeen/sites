@@ -1,4 +1,6 @@
 require 'lru_redux'
+require 'yui/compressor'
+require 'image_optim'
 
 module Sites
 
@@ -9,13 +11,22 @@ module Sites
       'layout'
     ]
 
+    COMPRESSORS = {
+      'application/javascript' => lambda { |data| YUI::JavaScriptCompressor.new(munge: true).compress(data) },
+      'text/css' => lambda { |data| YUI::CssCompressor.new.compress(data) },
+      'image/png' => lambda { |data| ImageOptim.new(pngout: false, advpng: {level: 0}, optipng: {level: 3}).optimize_image_data(data) rescue data },
+      'image/jpeg' => lambda { |data| ImageOptim.new.optimize_image_data(data) rescue data }
+    }
+
+    set :compress_assets, true
+
     def wiki_new
       Gollum::Wiki.new(ENV['SITES_BASE_PATH'] + "/" + env['wiki.name'] + '.git', {})
     end
 
     def initialize(app = nil)
       super(app)
-      @cache = LruRedux::ThreadSafeCache.new(100)
+      @cache = LruRedux::ThreadSafeCache.new(1000)
     end
 
     def cache_key(wiki, key)
@@ -32,11 +43,24 @@ module Sites
       end
     end
 
+    def compress_data(data, mime_type)
+      p mime_type
+      p COMPRESSORS.has_key?(mime_type.to_s)
+      if settings.compress_assets && COMPRESSORS.has_key?(mime_type.to_s)
+        return COMPRESSORS[mime_type.to_s].call(data)
+      else
+        return data
+      end
+    end
+
     def render_page(page_name, params)
       wiki = wiki_new
 
       key = cache_key(wiki, page_name)
       response.headers['X-Cache-Key'] = key
+
+      mimetype = MIME::Types.of page_name
+      content_type mimetype[0] if mimetype
 
       @cache.getset(key) do
         if (@page = wiki.page(page_name))
@@ -46,10 +70,8 @@ module Sites
           if file.name.end_with? '.erb'
             raw_data = render :erb, raw_data, layout: false
           end
-          mimetype = MIME::Types.of page_name
 
-          content_type mimetype[0]
-          return raw_data
+          compress_data(raw_data, mimetype[0])
         else
           raise Sinatra::NotFound
         end

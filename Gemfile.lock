@@ -1,9 +1,22 @@
+GIT
+  remote: https://github.com/toy/image_optim.git
+  revision: ad6e62818e031da80b9ce8dfc62e0d454ad9dd8a
+  specs:
+    image_optim (0.9.1)
+      exifr (~> 1.1.3)
+      fspath (~> 2.1.0)
+      image_size (~> 1.1.2)
+      in_threads (~> 1.2.0)
+      progress (~> 3.0.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
     charlock_holmes (0.6.9.4)
     diff-lcs (1.2.5)
     dotenv (0.9.0)
+    exifr (1.1.3)
+    fspath (2.1.0)
     github-markdown (0.5.5)
     github-markup (0.7.5)
     gitlab-grit (2.6.0)
@@ -24,14 +37,18 @@ GEM
       pygments.rb (~> 0.5.2)
       sanitize (~> 2.0.6)
       stringex (~> 2.1.0)
+    image_size (1.1.5)
+    in_threads (1.2.0)
+    libv8 (3.16.14.3)
     lru_redux (0.8.1)
     mime-types (1.25.1)
     mini_portile (0.5.2)
     mustache (0.99.5)
-    nokogiri (1.6.0)
+    nokogiri (1.6.1)
       mini_portile (~> 0.5.0)
-    posix-spawn (0.3.6)
-    puma (2.3.0)
+    posix-spawn (0.3.8)
+    progress (3.0.0)
+    puma (2.7.1)
       rack (>= 1.1, < 2.0)
     pygments.rb (0.5.4)
       posix-spawn (~> 0.3.6)
@@ -39,6 +56,7 @@ GEM
     rack (1.5.2)
     rack-protection (1.5.1)
       rack
+    ref (1.0.5)
     sanitize (2.0.6)
       nokogiri (>= 1.4.4)
     sinatra (1.4.4)
@@ -46,9 +64,13 @@ GEM
       rack-protection (~> 1.4)
       tilt (~> 1.3, >= 1.3.4)
     stringex (2.1.2)
+    therubyracer (0.12.0)
+      libv8 (~> 3.16.14.0)
+      ref
     tilt (1.4.1)
     useragent (0.8.3)
     yajl-ruby (1.1.0)
+    yui-compressor (0.12.0)
 
 PLATFORMS
   ruby
@@ -56,6 +78,9 @@ PLATFORMS
 DEPENDENCIES
   dotenv
   gollum
+  image_optim!
   lru_redux
   puma
   rack
+  therubyracer
+  yui-compressor
