@@ -3,6 +3,7 @@ Dotenv.load
 
 require './app.rb'
 
+use Rack::Deflater
 use Sites::Middleware
 
 Precious::App.set(:gollum_path, '/')
