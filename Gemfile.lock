@@ -1,4 +1,16 @@
 GIT
+  remote: https://github.com/peterkeen/gollum
+  revision: b836b0e273d8ded8749e9eb36550f96bd2ff6e5d
+  ref: upload-base-path
+  specs:
+    gollum (2.5.2)
+      github-markdown (~> 0.5.5)
+      gollum-lib (~> 1.0, >= 1.0.9)
+      mustache (>= 0.99.4, < 1.0.0)
+      sinatra (~> 1.4, >= 1.4.3)
+      useragent (~> 0.8.2)
+
+GIT
   remote: https://github.com/toy/image_optim.git
   revision: ad6e62818e031da80b9ce8dfc62e0d454ad9dd8a
   specs:
@@ -24,12 +36,6 @@ GEM
       diff-lcs (~> 1.1)
       mime-types (~> 1.15)
       posix-spawn (~> 0.3.6)
-    gollum (2.5.2)
-      github-markdown (~> 0.5.5)
-      gollum-lib (~> 1.0.9)
-      mustache (>= 0.99.4, < 1.0.0)
-      sinatra (~> 1.4.3)
-      useragent (~> 0.8.2)
     gollum-lib (1.0.9)
       github-markup (>= 0.7.5, < 1.0.0)
       gitlab-grit (= 2.6.0)
@@ -77,7 +83,7 @@ PLATFORMS
 
 DEPENDENCIES
   dotenv
-  gollum
+  gollum!
   image_optim!
   lru_redux
   puma

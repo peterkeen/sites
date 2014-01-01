@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'gollum'
+gem 'gollum', git: 'https://github.com/peterkeen/gollum', ref: 'upload-base-path'
 gem 'rack'
 gem 'puma'
 gem 'lru_redux'
