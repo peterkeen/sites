@@ -79,6 +79,7 @@ To reference your new stylesheet, use the `static_path` helper:
 <html>
   <head>
     <link rel="stylesheet" href="<%= static_path '/assets/stylesheets/main.css' %>" />
+  </head>
   <body>
     <%= yield %>
   </body>
